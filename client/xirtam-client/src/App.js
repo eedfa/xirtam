@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Topic from './topic.js';
+import React, { Component } from 'react'
+import './App.css'
+import Topic from './elements/topic.js'
+import CreateUserForm from './elements/createUserForm.js'
 
 class App extends Component {
-  render() {
+  render () {
     return (
-      <div className="App">
-        </Topic>
-      </div>
-    );
+      <div className='App'><CreateUserForm /></div>
+
+    )
   }
 }
 
-export default App;
+export default App
