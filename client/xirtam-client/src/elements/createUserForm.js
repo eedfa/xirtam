@@ -32,6 +32,7 @@ class CreateUserForm extends Component {
     } else if (this.state.email == '') {
       M.toast({ html: 'Please enter email' })
     } else {
+      console.log(this.props)
       this.props.createUserReuqest({
         variables: {
           username: this.state.username,
@@ -62,7 +63,6 @@ class CreateUserForm extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal.bind(this)}
           style={this.customStyles}
-          contentLabel='Example Modal'
         >
 
           <form onSubmit={this.submitForm.bind(this)}>
