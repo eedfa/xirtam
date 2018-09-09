@@ -1,0 +1,29 @@
+.Board{
+  position: relative;
+  left: 10%;
+  width: 50%; 
+
+  height: 80px;
+  border: 1px solid rgb(17, 190, 212);
+  border-radius: 10px;
+}
+.Board:hover{
+    background-color:rgb(17, 190, 212);
+}
+#Board:hover .boardTitle {
+  color: rgb(60, 105, 110)
+}
+#Board:hover .boardRepliesCount {
+  color: rgb(60, 105, 110)
+}
+.boardTitle{
+  top:15px;
+  position: absolute;
+  width: 20%;
+  font-weight: bold;
+}
+.boardRepliesCount{
+  position: relative;
+  top:40px;
+  width: 20%;
+}

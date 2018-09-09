@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Topic from './elements/topic.js'
 import CreateUserForm from './elements/createUserForm.js'
+import BoardList from './elements/boardList.js'
 import LoginForm from './elements/loginForm.js'
 
 class App extends Component {
@@ -9,6 +10,8 @@ class App extends Component {
     return (
       <div className='App'>
         <LoginForm />
+        <CreateUserForm />
+        <BoardList />
       </div>
 
     )

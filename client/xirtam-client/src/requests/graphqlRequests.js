@@ -14,5 +14,13 @@ mutation($username: String, $password: String){
     }
   }
 `
+const loadBoards = gql`
+{
+  boards{
+    boardName
+   }
+}
 
-export { loginRequest, createUserReuqest }
+`
+
+export { loginRequest, createUserReuqest, loadBoards }
