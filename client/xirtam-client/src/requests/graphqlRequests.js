@@ -9,8 +9,8 @@ const createUserReuqest = gql`
 `
 const loginRequest = gql`
 mutation($username: String, $password: String){
-    login(username:$username ,password:$password){
-      username
+  loginMutation(username:$username ,password:$password){
+      token
     }
   }
 `
@@ -22,5 +22,12 @@ const loadBoards = gql`
 }
 
 `
+const addBoard = gql`
+  mutation($boardName:String){
+    boardAdd(boardName:$boardName){
+      boardId
+    }
+  }
+`
 
-export { loginRequest, createUserReuqest, loadBoards }
+export { loginRequest, createUserReuqest, loadBoards, addBoard }

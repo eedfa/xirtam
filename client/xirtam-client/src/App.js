@@ -4,6 +4,7 @@ import Topic from './elements/topic.js'
 import CreateUserForm from './elements/createUserForm.js'
 import BoardList from './elements/boardList.js'
 import LoginForm from './elements/loginForm.js'
+import CreateBoardForm from './elements/createBoardForm.js'
 
 class App extends Component {
   render () {
@@ -11,6 +12,7 @@ class App extends Component {
       <div className='App'>
         <LoginForm />
         <CreateUserForm />
+        <CreateBoardForm />
         <BoardList />
       </div>
 
