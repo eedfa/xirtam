@@ -79,10 +79,5 @@ const mapStateToProps = (state) => {
   )
 }
 
-export default compose(connect(mapStateToProps), graphql(addBoard, { options: {
-  context: {
-    headers: {
-      'x-access-token': this.props.token
-    }
-  } },
-name: 'addBoard' }))(CreateBoardForm)
+export default compose(connect(mapStateToProps), graphql(addBoard, {
+  name: 'addBoard' }))(CreateBoardForm)
