@@ -1,20 +1,45 @@
 import React, { Component } from 'react'
-import topic from './topic.js'
+import Topic from './topic.js'
 
-class topicList extends Component {
-  render () {
-    return {
-      const topicList = topics.map(topic => {
-        return (
-            <div className="topic">
-
-            </div>
-        )
-      <ul>
-        {topicList}
-      </ul>
-      })
+class TopicList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      topics: []
     }
   }
+  addTopic (newTopic) {
+    console.log('addTopic')
+    console.log(newTopic)
+    this.setState(prevState => ({
+      arrayvar: [...prevState.arrayvar, newTopic]
+    }))
+  }
+  loadList () {
+    console.log('this.props.topicList')
+    console.log(this.props.topics)
+    if (this.props.topics.length === 0) {
+      return (<div>loading ...</div>)
+    } else {
+      return this.props.topics.map(
+        (topic) => {
+          console.log(topic.topicContent)
+          return (
+            <div className='topic'>
+              <Topic title={topic.topicContent} />
+            </div>
+          )
+        })
+    }
+  }
+
+  render () {
+    return (
+      <div className='topicList'>
+        {this.loadList()}
+      </div>
+    )
+  }
 }
-export default topicList
+
+export default TopicList

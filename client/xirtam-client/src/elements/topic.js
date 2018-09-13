@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 
 class Topic extends Component {
-  render () {
-    const topic = {
-      name: ''
+  constructor (props) {
+    super(props)
+    this.state = {
+      title: ''
     }
-
+  }
+  render () {
     return (
       <div className='topic'>
-        <a href='#!' class='collection-item'> {topic.topicName}</a>
+        {this.props.title}
       </div>
     )
   }

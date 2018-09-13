@@ -30,4 +30,12 @@ const addBoard = gql`
   }
 `
 
-export { loginRequest, createUserReuqest, loadBoards, addBoard }
+const loadTopics = gql`
+mutation($topicBoardName: String){
+  loadTopicMutation(topicBoardName:$topicBoardName){
+    topicContent
+  }
+}
+`
+
+export { loginRequest, createUserReuqest, loadBoards, addBoard, loadTopics }

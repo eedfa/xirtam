@@ -12,8 +12,6 @@ class boardList extends Component {
     }
   }
   load () {
-    console.log('this.props')
-    console.log(this.props)
     var data = this.props
     if (data.loading) {
       return <div className='loadingBoards' >Loading..</div>
@@ -21,7 +19,6 @@ class boardList extends Component {
       if (data.loadBoards.loading) {
         return <div className='loadingBoards' >Loading..</div>
       } else {
-        console.log(data.loadBoards.boards)
         const boards = data.loadBoards.boards
         return boards.map((boards) => {
           return (
