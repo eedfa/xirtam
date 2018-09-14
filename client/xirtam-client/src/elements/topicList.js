@@ -26,7 +26,7 @@ class TopicList extends Component {
           console.log(topic.topicContent)
           return (
             <div className='topic'>
-              <Topic title={topic.topicContent} />
+              <Topic title={topic.topicContent} topicMainId={topic.id} />
             </div>
           )
         })
