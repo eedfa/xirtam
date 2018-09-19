@@ -1,24 +1,41 @@
 # Editors
-/.vscode
-/.idea
+/client/.vscode
+/client/.idea
+
+/server/.vscode
+/server/.idea
 
 # dependencies
-/node_modules
-
+/client/node_modules
+/server/node_modules
 # build
-/dist
-
+/client/dist
+/server/dist
 # misc
-.DS_Store
-.env
+/client/.DS_Store
+/client/.env
 
-yarn.lock
-package-lock.json
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+/client/yarn.lock
+/client/package-lock.json
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
 
-.v8flags*
-.babel.json
-.config/
-.npm/
+/client/.v8flags*
+/client/.babel.json
+/client/.config/
+/client/.npm/
+
+/server/.DS_Store
+/server/.env
+
+/server/yarn.lock
+/server/package-lock.json
+/server/npm-debug.log*
+/server/yarn-debug.log*
+/server/yarn-error.log*
+
+/server/.v8flags*
+/server/.babel.json
+/server/.config/
+/server/.npm/
