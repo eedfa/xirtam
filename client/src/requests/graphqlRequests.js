@@ -17,7 +17,7 @@ mutation($username: String, $password: String){
 const loadBoards = gql`
 {
   boards{
-    boardName
+    boardName id
    }
 }
 
@@ -25,21 +25,22 @@ const loadBoards = gql`
 const addBoard = gql`
   mutation($boardName:String){
     boardAdd(boardName:$boardName){
-      boardId
+      boardName
     }
   }
 `
 
-const loadTopics = gql`
-mutation($topicBoardName: String){
-  loadTopicMutation(topicBoardName:$topicBoardName){
-    topicContent,id,topicName
+const topics = gql`
+query($boardId:String , $boardName:String){
+  topics(boardId:$boardId , boardName:$boardName){
+    topicName,topicContent,topicTimeStamp,id
   }
 }
+
 `
 const addTopicPost = gql`
-mutation($topicName: String ,$topicContent: String,$topicMainId: String){
-    addTopicPost(topicName:$topicName, topicContent:$topicContent,topicMainId:$topicMainId){
+mutation($topicName: String ,$topicContent: String,$topicMainId: String ,$topicType: Int){
+    addTopicPost(topicName:$topicName, topicContent:$topicContent,topicMainId:$topicMainId ,topicType:$topicType){
       topicName,
       topicContent
     }
@@ -47,4 +48,22 @@ mutation($topicName: String ,$topicContent: String,$topicMainId: String){
 }
 `
 
-export { loginRequest, createUserReuqest, loadBoards, addBoard, loadTopics, addTopicPost }
+const loadTopicPosts = gql`
+query loadTopicPosts($topicId: String!){
+  loadTopicPosts(topicId: $topicId){
+    topicName,topicContent,topicTimeStamp,id
+  }
+}
+`
+const createTopicMutation = gql`
+mutation($boardId: String,$topicName: String ,$topicContent: String ,$topicType: Int){
+  addTopicMutation(topicName:$topicName, topicContent:$topicContent,boardId:$boardId ,topicType:$topicType){
+    topicName,
+    topicContent
+  }
+}
+
+`
+
+export { loginRequest, createUserReuqest, loadBoards, addBoard, 
+  topics, addTopicPost ,loadTopicPosts,createTopicMutation }

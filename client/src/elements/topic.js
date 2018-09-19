@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import '../css/topic.css'
-import { compose, graphql } from 'react-apollo'
-import { addTopicPost } from '../requests/graphqlRequests.js'
 
+import { withRouter } from 'react-router'
 class Topic extends Component {
   constructor (props) {
     super(props)
     this.state = {
       title: '',
       content: '',
-      post: ''
+      post: '',
+      topicId:''
     }
   }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.addTopicPost({ variables: {
@@ -21,19 +19,19 @@ class Topic extends Component {
       topicMainId: this.props.topicMainId
     } })
   }
-
+  onClick(){
+    const { history: { push } } = this.props
+    push('/b/'+this.props.boardName+'/'+this.props.topicId);
+  }
   render () {
     return (
-      <div className='topic'>
+      <div  id='topic' className='topic' onClick={this.onClick.bind(this)} style={this.props.altStyle}>
         <form onSubmit={this.onSubmit.bind(this)} >
-          {this.props.title}
-          {this.props.content}
-          {this.props.topicMainId}
-          <input className='postTextBox' onChange={(e) => { this.setState({ post: e.target.value }) }} />
-          <button onSubmit={this.onSubmit.bind(this)} >Post</button>
+          <div className='topicTitle'>{this.props.title}</div>
+          <div className='topicContent'>{this.props.content}</div>
         </form>
       </div>
     )
   }
 }
-export default compose(graphql(addTopicPost, { name: 'addTopicPost' }))(Topic)
+export default withRouter(Topic)

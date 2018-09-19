@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../css/boardSpacing.css'
+
 
 class BoardSpacing extends Component {
   constructor (props) {
@@ -11,8 +11,7 @@ class BoardSpacing extends Component {
   }
   render () {
     return (
-      <div id='BoardSpacing' />
-
+      <div id='boardSpacing' />
     )
   }
 }

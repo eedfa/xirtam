@@ -2,13 +2,13 @@ const express = require('express')
 const graphqlHttp = require('express-graphql')
 const rootSchema = require('./schemas/rootSchema.js')
 const mongoose = require('mongoose')
+const { apolloUploadExpress } =  require('apollo-upload-server')
 const cors = require('cors')
 const { errorTypes } = require('./constants.js')
 const app = express()
 
 app.use(cors())
 const resolveErrorCode = (errorMessage) => {
-  console.log(errorMessage)
   return errorTypes[errorMessage]
 }
 mongoose.connect('mongodb://a:aaaaaa1@ds125352.mlab.com:25352/wefewfwqasasf', { uri_decode_auth: true })
@@ -27,7 +27,8 @@ app.use('/graphql', graphqlHttp(request => ({ schema: rootSchema,
     } catch (err) {
       return errorMessage
     }
-  } })))
+  } })),
+  apolloUploadExpress({uploadDir:'./'}))
 
 app.listen(4000, () => {
   console.log('UP!!!')

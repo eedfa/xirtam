@@ -4,11 +4,10 @@ const Schema = mongoose.Schema
 const topicSchema = new Schema({
   topicName: String,
   topicContent: String,
-  topicAuthor: Number,
+  topicAuthor: String,
+  originPost: String,
   topicTimeStamp: String,
-  topicId: String,
-  topicBoardName: String,
-  __id: String
+  boardId: String
 
 })
 

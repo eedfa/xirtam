@@ -1,48 +1,51 @@
 const graphql = require('graphql')
 const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLList } = graphql
 const boardMongoSchema = require('../mongoDBSchema/boardSchema.js')
-const { UserType } = require('./userSchema.js')
+const topicSchema = require('../mongoDBSchema/topicSchema.js')
+const {topicType} =  require('./topicSchema.js')
+
 const { checkLoggedIn } = require('../checkToken.js')
 
-const boardSchema = new GraphQLObjectType({
-  name: 'boardSchema',
+const boardType = new GraphQLObjectType({
+  name: 'boardType',
   fields: () => ({
-    boardId: ({ type: GraphQLString }),
+    id: ({ type: GraphQLString }),
     boardName: ({ type: GraphQLString }),
     boardScore: ({ type: GraphQLInt }),
-    boardCreator: ({ type: UserType,
-      resolve (parents, args) {
-        return UserType.findById(parents.authorId)
+    boardCreatorId:({type: GraphQLString}),
+    topic:({
+      type:GraphQLList(topicType),
+      async resolve (parent, args){
+        var query = topicSchema.find({boardId:parent.id})
+        query.select('originPost topicId topicName topicContent topicTimeStamp topicBoardName topicType')
+        var result = await query.exec()
+        return result
       }
-
     })
   })
 })
 
 const boards = {
-  type: GraphQLList(boardSchema),
+  type: GraphQLList(boardType),
   args: {
     id: { type: GraphQLString },
     boardId: ({ type: GraphQLString }),
     boardName: ({ type: GraphQLString }),
     boardScore: ({ type: GraphQLInt }),
     boardCreator: ({ type: GraphQLString }) },
-  async resolve (parent, args, context) {
-    var result = await boardMongoSchema.find({})
-    console.log(result)
-    return result
+    async resolve (parent, args, context) {
+      var result = await boardMongoSchema.find({})
+      return result
   }
 }
 
 const boardAdd = {
-  type: boardSchema,
+  type: boardType,
   args: {
     boardName: ({ type: GraphQLString })
   },
   resolve (parents, args, context) {
     var userId = checkLoggedIn(context)
-    console.log('context')
-    console.log(userId)
     const schema = new boardMongoSchema({
       boardName: args.boardName,
       boardScore: 0,
@@ -52,5 +55,4 @@ const boardAdd = {
   }
 
 }
-
-module.exports = { boards, boardAdd }
+module.exports = { boards, boardAdd ,boardType }

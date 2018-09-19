@@ -6,7 +6,6 @@ const boardSchema = new Schema({
   boardName: String,
   boardScore: Number,
   boardCreatorId: String
-
 })
 
 module.exports = mongoose.model('board', boardSchema)

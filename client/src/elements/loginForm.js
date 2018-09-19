@@ -4,12 +4,11 @@ import { loginRequest } from '../requests/graphqlRequests.js'
 import Modal from 'react-modal'
 import { Button } from 'react-materialize'
 import { connect } from 'react-redux'
+import M from 'materialize-css'
 const GlobalState = React.createContext()
 class loginForm extends Component {
   constructor (props) {
     super(props)
-    console.log(loginRequest)
-
     this.state = {
       'username': '',
       'password': '',
@@ -36,7 +35,6 @@ class loginForm extends Component {
 
   async submit (e) {
     e.preventDefault()
-    console.log(this.props)
     this.onCloseModal()
     const token = await this.props.loginRequest({
       variables: {
@@ -44,8 +42,9 @@ class loginForm extends Component {
         password: this.state.password
       }
     })
-    console.log('this.props.loginRequest')
-    console.log(token.data.loginMutation.token)
+    if(token.data.loginMutation.token !== ''){
+      M.toast({ html: 'Logged in' })
+    }
     this.props.setToken(token.data.loginMutation.token)
     this.setState({ 'token': token.data.loginMutation.token })
   }
@@ -90,8 +89,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setToken: (token) => {
-      console.log('dispatch')
-      console.log(token)
       dispatch({ type: 'Set_token', token: token })
     }
   }

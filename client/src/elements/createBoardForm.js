@@ -3,9 +3,8 @@ import { Button } from 'react-materialize'
 import Modal from 'react-modal'
 import { compose, graphql } from 'react-apollo'
 import { addBoard } from '../requests/graphqlRequests.js'
-import { loginForm } from './loginForm.js'
 import { connect } from 'react-redux'
-var outToken = 'NoToken'
+import M from 'materialize-css'
 class CreateBoardForm extends Component {
   constructor (props) {
     super(props)
@@ -32,39 +31,36 @@ class CreateBoardForm extends Component {
   }
   onSubmitForm (e) {
     e.preventDefault()
-    outToken = this.props.token
     window.outToken = this.props.token
     this.props.addBoard({ variables: {
       boardName: this.state.boardName
-    } })
-    console.log('this.props.token')
-    console.log(outToken)
-  }
-  onClick () {
-    console.log(' context.state.token')
+    } }).then((data)=>{ 
+      this.onClose()
+      window.location.reload();
+    }).catch((error) => {
+      this.onClose()
+      M.toast({ html: 'Please login' })
+    });
+  
   }
   render () {
     return (
-
       <div className='createBoardForm' >
-
         <Button waves='light' onClick={this.onOpen.bind(this)}>Create Board</Button>
         <Modal
           isOpen={this.state.isOpen}
           onRequestClose={this.onClose.bind(this)}
           style={this.style}>
-
-          <form onSubmit={this.onSubmitForm.bind(this)} >
-            <div className='boardName'>
-              <label htmlFor='boardName'>Board Name</label>
-              <input id='boardName' onChange={(e) => { this.setState({ boardName: e.target.value }) }} />
-            </div>
-            <button class='btn wave-effect wave-light' type='submit' name='action'>
-          Submit
-            </button>
-          </form>
+            <form onSubmit={this.onSubmitForm.bind(this)} >
+              <div className='boardName'>
+                <label htmlFor='boardName'>Board Name</label>
+                <input id='boardName' autoFocus onChange={(e) => { this.setState({ boardName: e.target.value }) }} />
+              </div>
+              <button class='btn wave-effect wave-light' type='submit' name='action'>
+                Submit
+              </button>
+            </form>
         </Modal>
-
       </div>
 
     )

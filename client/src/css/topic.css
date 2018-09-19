@@ -1,3 +1,34 @@
-.postTextBox{
-  
+.topic{
+  display: inline-block;
+  position: relative;
+  width:10%;
+  height:10%;
+  margin-top: 2%;
+  margin-right: 10px;
+  border: 1px solid rgb(17, 190, 212);
+  border-radius: 10px
+}
+.topicTitle{
+  position: absolute;
+  top: 15%;
+  text-align: center;
+  width: 100%;
+  color: rgb(60, 105, 110);
+}
+.topicContent{
+  position: absolute;
+  top: 35%;
+  text-align: center;
+  width: 100%;
+  color: rgb(0, 102, 255);
+}
+.topicList{
+  position: relative;
+  margin-left: 10%;
+  width: 80%;
+
+}
+.createPostButton{
+  margin-left: 50%;
+  transform: translateX(-50%);
 }

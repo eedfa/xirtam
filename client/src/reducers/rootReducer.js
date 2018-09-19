@@ -1,12 +1,11 @@
-const initState = {
-  token: 'adq'
-}
-
 const rootReducer = (state, action) => {
   if (action.type === 'Set_token') {
-    console.log('Set_token')
-    console.log(action.token)
-    return { token: action.token }
+
+    return {...state ,token: action.token }
+  }
+  if (action.type === 'Set_Borad_id') {
+
+    return { ...state ,boardId: action.boardId }
   }
   return state
 }

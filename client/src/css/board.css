@@ -1,19 +1,19 @@
-.Board{
+.board{
+  display: inline-block;
   position: relative;
-  left: 10%;
   width: 50%; 
-
+  margin-right: 10px;
   height: 80px;
   border: 1px solid rgb(17, 190, 212);
   border-radius: 10px;
 }
-.Board:hover{
-    background-color:rgb(17, 190, 212);
+.board:hover{
+  background-color:rgb(17, 190, 212);
 }
-#Board:hover .boardTitle {
+#board:hover .boardTitle {
   color: rgb(60, 105, 110)
 }
-#Board:hover .boardRepliesCount {
+#board:hover .boardRepliesCount {
   color: rgb(60, 105, 110)
 }
 .boardTitle{
@@ -26,4 +26,17 @@
   position: relative;
   top:40px;
   width: 20%;
+}
+#boardList > .Board {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  background-color: red;
+}
+.Loading{
+  width: 10%;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  color: rgb(60, 105, 110);
+  font-weight: bold
 }

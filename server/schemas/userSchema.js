@@ -3,7 +3,10 @@ const UserDBSchema = require('../mongoDBSchema/userSchema.js')
 const { GraphQLObjectType, GraphQLInt, GraphQLString } = graphql
 const bcrypt = require('bcrypt')
 const { jwtSecret } = require('../constants')
+const {boardType} = require('./boardSchema')
 const jsonwebtoken = require('jsonwebtoken')
+const boardSchema = require('../mongoDBSchema/boardSchema.js')
+
 const UserType = new GraphQLObjectType({
 
   name: 'login',
@@ -11,8 +14,14 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLInt },
     username: { type: GraphQLString },
     password: { type: GraphQLString },
-    token: { type: GraphQLString }
+    token: { type: GraphQLString },
+    boards:({
+      type:boardType,
+      resolve(parent,args){
+        return boardSchema.find({'boardCreatorId':parent.id})
+      }
 
+    })
   })
 
 })
@@ -41,7 +50,6 @@ const loginMutation = {
     password: { type: GraphQLString }
   },
   async resolve (parent, args, context) {
-    console.log(context)
     const username = args.username
 
     const userQuery = UserDBSchema.findOne({ 'name': username })
@@ -53,11 +61,7 @@ const loginMutation = {
     if (!valid) {
       throw new Error('Incorrect password')
     }
-    console.log('payload')
-    console.log({
-      id: user._id,
-      name: user.name
-    })
+
     const token = jsonwebtoken.sign({
       id: user._id,
       username: user.name

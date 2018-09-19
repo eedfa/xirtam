@@ -1,0 +1,66 @@
+.hiddenView{
+  position: fixed;
+  visibility: hidden;
+  height: 20%;
+}
+.showView{
+  position: fixed;
+  visibility: visible;
+  height: 20%;
+}
+.submitPostButton{
+  text-align: center;
+  position: relative;
+  width: 30%;
+  height: 40%;
+  background-color: rgb(241, 241, 255);
+  border: 1px solid rgb(102, 102, 153);
+  border-radius: 10px;
+}
+.createPostTab{
+  height: 20%;
+}
+.tabText{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.nonActiveTab{
+  position: relative;
+  width: 33%;
+  height: 80%;
+  display: inline-block;
+  text-align: center;
+  background-color: rgb(241, 241, 255);
+  border: 1px solid rgb(102, 102, 153);
+}
+.activeTab{
+  position: relative;
+  width: 33%;
+  height: 80%;
+  display: inline-block;
+  text-align: center;
+  color: rgb(102, 102, 153);
+  background-color: rgb(241, 241, 255);
+  border: 1px solid rgb(102, 102, 153);
+}
+.nonActiveTab:hover{
+  color: rgb(102, 102, 153)
+}
+.createPost{
+  position: relative;
+  height: 400px;
+  width: 600px;
+}
+.postTitleInput{
+  border: 1px solid rgb(7, 190, 212);
+  border-radius: 10px;
+  background-color: beige;
+  height:30px;
+}
+.postContentInput{
+  border: 1px solid rgb(7, 190, 212);
+  border-radius: 10px;
+  background-color: beige;
+  height: 200px;
+}

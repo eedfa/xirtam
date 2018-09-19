@@ -29,10 +29,9 @@ class CreateUserForm extends Component {
     e.preventDefault()
     if (this.state.password !== this.state.repeatPassword) {
       M.toast({ html: 'Please check your passwords' })
-    } else if (this.state.email == '') {
+    } else if (this.state.email === '') {
       M.toast({ html: 'Please enter email' })
     } else {
-      console.log(this.props)
       this.props.createUserReuqest({
         variables: {
           username: this.state.username,
@@ -45,22 +44,15 @@ class CreateUserForm extends Component {
   openModal () {
     this.setState({ modalIsOpen: true })
   }
-
-  afterOpenModal () {
-  }
-
   closeModal () {
     this.setState({ modalIsOpen: false })
   }
   render () {
     return (
-
-      <div className='CreateUserForm'>
-
+      <div className='createUserForm'>
         <Button waves='light' onClick={this.openModal.bind(this)}>Sing up</Button>
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal.bind(this)}
           style={this.customStyles}
         >
@@ -76,13 +68,10 @@ class CreateUserForm extends Component {
               <input id='password' type='password' onChange={(e) => { this.setState({ password: e.target.value }) }} />
             </div>
             <div className='input-field' >
-
               <label htmlFor='passwordRepeat'>Repeat Password</label>
               <input id='passwordRepeat' type='password' onChange={(e) => { this.setState({ repeatPassword: e.target.value }) }} />
             </div>
-
             <div className='input-field' >
-
               <label htmlFor='email'>Email</label>
               <input id='email' type='email' className='form-control' onChange={(e) => { this.setState({ email: e.target.value }) }} />
             </div>

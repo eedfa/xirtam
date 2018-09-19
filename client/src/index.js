@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
 import ApolloClient from 'apollo-boost'
 import registerServiceWorker from './registerServiceWorker'
 import { ApolloProvider } from 'react-apollo'
@@ -10,14 +9,21 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import rootReducer from './reducers/rootReducer.js'
 import RootRouter from './routers/rootRoute.js'
-import Board from './pages/Board.js'
+import {InMemoryCache} from 'apollo-cache-inmemory'
+import {createUploadLink} from 'apollo-upload-client'
+import './css/board.css'
+import './css/topic.css'
+import './css/post.css'
+import './css/createPost.css'
+import './css/boardSpacing.css'
 const initialState = {
   token: ''
 }
-
 const store = createStore(rootReducer, initialState)
 const client = new ApolloClient({
-  uri: 'http://127.0.0.1:4000/graphql',
+  uri: 'http://127.0.0.1:4000/graphql', 
+  cache: new InMemoryCache(),
+  link:createUploadLink(),
   request: async (operation) => {
     console.log('store.getState().token')
     console.log(store.getState().token)

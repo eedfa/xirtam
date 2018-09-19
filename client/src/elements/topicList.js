@@ -9,30 +9,20 @@ class TopicList extends Component {
     }
   }
   addTopic (newTopic) {
-    console.log('addTopic')
-    console.log(newTopic)
     this.setState(prevState => ({
       arrayvar: [...prevState.arrayvar, newTopic]
     }))
   }
   loadList () {
-    console.log('this.props.topicList')
-    console.log(this.props.topics)
-    if (this.props.topics.length === 0) {
-      return (<div>loading ...</div>)
-    } else {
       return this.props.topics.map(
         (topic) => {
-          console.log(topic.topicContent)
           return (
-            <div className='topic'>
-              <Topic title={topic.topicContent} topicMainId={topic.id} />
+            <div className='topicList'>
+              <Topic  title={topic.topicName} content={topic.topicContent} topicId={topic.id} />
             </div>
           )
         })
-    }
   }
-
   render () {
     return (
       <div className='topicList'>

@@ -2,7 +2,6 @@ const { errorNames, jwtSecret } = require('./constants')
 const jwt = require('jsonwebtoken')
 function checkLoggedIn (req, context) {
   var token = req.request.headers['x-access-token']
-  console.log(token)
   if (!token) {
     try {
       throw new Error(errorNames.NOTOKEN)
