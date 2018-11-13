@@ -1,0 +1,52 @@
+
+  type Board {
+    id: String
+    boardName: String
+    boardScore: Int
+    boardCreatorId: String
+    topic:[Topic]
+    ratingScore: Int
+    ratingAmount: Int
+    boardPic: String
+  }
+
+ type Subscription{
+  loadBoardsBoardcast(
+    boardName:String
+  ):Int
+}
+
+ type Subscription{
+  ratingBoardcast(
+    boardName:String,
+    boardId:String
+  ):Board
+}
+
+ type Query {
+    Board:[Board]
+  }
+
+type Mutation {
+    boardAdd(boardName: String): Board
+  }
+
+ type Mutation {
+    boardAddRating(
+       boardId: String,
+       boardName: String,
+       rating:Int): Board
+  }
+
+ type Query{
+  boards(
+    boardName:String,
+    boardId:String
+  ) : [Board]
+}
+
+ type Query{
+  boardSearch(
+    searchQuery: String
+  ) : [Board]
+}

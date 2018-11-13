@@ -1,0 +1,11 @@
+
+union searchResult = Board | Topic
+
+ type Query{
+  seacrhQuery(
+    query: String
+  ):[searchResult]
+ }
+
+scalar Upload
+

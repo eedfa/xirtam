@@ -25,6 +25,26 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.createPost{
+
+  position: relative;
+  display: inline-block;
+  height: 40%;
+  width: 10%;
+  margin: 1%;
+  border-radius: 10px;
+  border: 1px solid  rgb(102, 102, 153);
+  background-color: rgb(170, 170, 238);
+
+}
+.createPostModal{
+  transform: translateX(-50%);
+  margin-left: 50%;
+  margin-top: 10%;
+  background-color: white;
+  height:500px;
+  width: 600px;
+}
 .nonActiveTab{
   position: relative;
   width: 33%;
@@ -47,11 +67,7 @@
 .nonActiveTab:hover{
   color: rgb(102, 102, 153)
 }
-.createPost{
-  position: relative;
-  height: 400px;
-  width: 600px;
-}
+
 .postTitleInput{
   border: 1px solid rgb(7, 190, 212);
   border-radius: 10px;

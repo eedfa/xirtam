@@ -1,0 +1,4 @@
+# import Topic, Query.* , Subscription.* ,Mutation.*   from "topicTypeDefs.graphql"
+# import Board, Query.* , Subscription.* ,Mutation.* from "boardTypeDefs.graphql"
+# import User, Mutation.* from "userTypeDefs.graphql"
+# import  Query.*  from "utilsTypeDefs.graphql"

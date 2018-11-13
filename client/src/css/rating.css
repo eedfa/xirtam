@@ -1,0 +1,44 @@
+
+:root {
+  --half-rating:60%;
+}
+
+.rating-box{
+  color:#ffffff;
+  text-shadow: 0px 0px 2px rgba(62,180,193,1);
+  margin-top:  3rem;
+  margin-left: 2rem;
+  height: 3rem;
+  width: 25rem;
+}
+
+.rating-star{
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  position: relative; 
+}
+
+.full-star:before {
+  color:#3eb4c1;
+  content: '\2605';
+  position: absolute;
+  overflow: hidden;
+}
+.empty-star:before {
+  content: '\2605';
+  position: absolute;
+  overflow: hidden;
+}
+.half-star:before {
+  color:#3eb4c1;
+  content:'\2605';
+  position: absolute;
+}
+
+.half-star::after{
+  content: '\2605';
+  position: absolute;
+  height: var(--half-rating)%; /*% hack best hack between 100 and 30 is between 0% and 100% fuck css(counter strike source)*/
+  overflow: hidden;
+}

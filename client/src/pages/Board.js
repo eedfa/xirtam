@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import Topic from '../elements/topic.js'
-import { topics } from '../requests/graphqlRequests.js'
-import { compose, graphql,Query } from 'react-apollo'
+import Topic from '../elements/mainView//Topic.js'
+import { topics, loadBoards, loadTopicsBoardcast, ratingBoardcast } from '../requests/graphqlRequests.js'
+import { compose, graphql } from 'react-apollo'
 import { Button } from 'react-materialize'
 import Modal from 'react-modal'
-import { gql } from 'apollo-boost'
 import { connect } from 'react-redux'
-import CreateTopic from '../elements/createTopic.js'
-import { withRouter } from 'react-router'
-var _ = require('lodash');
+import CreateTopic from '../elements/overlay/CreateTopic.js'
+import Share from '../elements/overlay/Share.js'
+import Rating from '../elements/overlay/Rating.js'
+import TopBar from '../elements/overlay/TopBar.js'
+const _ = require('lodash')
 
 class Board extends Component {
   constructor (props) {
@@ -16,12 +17,16 @@ class Board extends Component {
     this.state = {
       boardName: '',
       topicList: [],
-      columns:20,
-      width:200,
-      height:200,
+      subTopics: [],
+      rating: undefined,
+      boardScore: 0,
+      columns: 20,
+      width: 200,
+      height: 200,
       modalIsOpen: false
     }
     this.customStyles = {
+      overlay: { zIndex: 10 },
       content: {
         top: '50%',
         left: '50%',
@@ -38,105 +43,153 @@ class Board extends Component {
 
   closeModal () {
     this.setState({ modalIsOpen: false })
-    window.location.reload();
   }
-  resize(){
+  resize () {
     let height = 200
-    let columns = Math.round(window.innerWidth/200)
-    let width  = (80/columns)+'%'
-    if (window.innerWidth <300){
+    const columns = Math.round(window.innerWidth / 200)
+    const width = (80 / columns) + '%'
+    if (window.innerWidth < 300) {
       height = window.innerWidth
     }
     this.setState({
-      height:height,
-      width:width,
-      columns:columns
+      height: height,
+      width: width,
+      columns: columns
     })
   }
-  componentWillMount(){
+  componentWillMount () {
     this.resize.bind(this)
   }
-  componentDidMount(){
-    let boardName = this.props.match.params.boardName
+
+  componentDidMount () {
+    const boardName = this.props.match.params.boardName
     this.setState({ boardName: boardName })
-    window.addEventListener('resize',this.resize.bind(this))
+    window.addEventListener('resize', this.resize.bind(this))
+    this.props.topics.subscribeToMore({
+      document: loadTopicsBoardcast,
+      variables: { topicId: this.props.match.params.topicId },
+      updateQuery: (prev, subscriptionData) => {
+        if (!subscriptionData.data) return prev
+        const newFeedItem = subscriptionData.data
+        const newTopics = this.state.subTopics
+        newTopics.push(newFeedItem.loadTopicsBoardcast)
+        this.setState({ subTopics: newTopics })
+      }
+    })
+    this.props.loadBoards.subscribeToMore({
+      document: ratingBoardcast,
+      variables: { boardName: this.state.boardName },
+      updateQuery: (prev, subscriptionData) => {
+        if (!subscriptionData.data) return prev
+        const newFeedItem = subscriptionData.data
+        const newRating = newFeedItem.ratingBoardcast.ratingScore / newFeedItem.ratingBoardcast.ratingAmount
+        this.setState({ rating: newRating })
+      }
+    })
   }
-
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.resize.bind(this))
+  }
   loadBoard () {
-    const result =  null
-  
-    let data = this.props.topics
-    if (data.loading){
-      return(<div className='loading'>Loading...</div>)
-    }else{
-        if(data.topics.length === 0){
-          return(<div className='loading'>No topics</div>)
-        }
-        const topicsColums = []
-        const topics =data.topics 
-        let currentColum = 0
-        for(let i = 0 ;i < topics.length;i++){
-          if(i%this.state.columns === 0){
-              topicsColums.push([])
-              currentColum = i/this.state.columns
-          }
-          topicsColums[currentColum].push(topics[i])
-        }
-        const collection = _.zip(topicsColums)
-        return collection.map((topic)=>{
-          if(topic[0]!== undefined){
-            let col = []
-            for(let i = 0 ; i < topic[0].length; i++){
-                col.push(<Topic  title={topic[0][i].topicName} topicId={topic[0][i].id} 
-                boardName={this.state.boardName} content={topic[0][i].topicContent} altStyle={{width:this.state.width,height:this.state.height}} padding={20} />)
-            }
-            return (
-              <div className='topicList'>
-                {col}
-              </div>
-  
-            )
-
-          }
-        })
-
+    const data = this.props.topics
+    if (data.loading || data.topics.length === 0) {
+      return
     }
+    const topicsColums = []
+    let topics = data.topics
+    topics = topics.concat(this.state.subTopics)
+    let currentColum = 0
+    topics.map((topicObj, i) => {
+      if (i % this.state.columns === 0) {
+        topicsColums.push([])
+        currentColum = i / this.state.columns
+      }
+      topicsColums[currentColum].push(topics[i])
+    }
+    )
+    const collection = _.zip(topicsColums)
+    return collection.map((topic) => {
+      if (topic[0] !== undefined) {
+        const col = []
+        topic[0].map((element) => {
+          col.push(<Topic title={element.topicName} imgUrl={'http://localhost:4000/uploads/' + element.topicPic} topicId={element.id}
+            boardName={this.state.boardName} content={element.topicContent}
+            altStyle={{ width: this.state.width, height: this.state.height, backgroundImage: `url(http://localhost:4000/uploads/${element.topicPic}` }} padding={20} />)
+        })
+        return (
+          <div className='topicList'>
+            {col}
+          </div>
+        )
+      }
+    })
   }
-
-  render () {
+  loadRating () {
+    const dataBoards = this.props.loadBoards
+    if (dataBoards.loading) {
+      return
+    }
+    let boardScore = dataBoards.boards[0].ratingScore / dataBoards.boards[0].ratingAmount
+    if (this.state.rating !== undefined) {
+      boardScore = this.state.rating
+    }
     return (
-      <div> 
+      <Rating boardId={this.props.boardId} boardName={this.state.boardName} stars={boardScore} />
+    )
+  }
+  render () {
+    if (this.props.topics.loading) {
+      return (
+        <div style={{ marginTop: '5%' }}>
+          <TopBar button='topic' style={{ 'zIndex': 999 }} />
+          <div className='loading'>Loading...</div>
+        </div>)
+    }
+    if (this.props.topics.length === 0) {
+      return (
+        <div style={{ marginTop: '5%' }}>
+          <TopBar button='topic' style={{ 'zIndex': 999 }} />
+          <div className='loading'>No topics</div>
+        </div>)
+    }
+    return (
+      <div style={{ marginTop: '5%' }}>
+        <TopBar button='topic' style={{ 'zIndex': 999 }} />
         <div className='topicView'>
-            <Button className='createPostButton' onClick={this.openModal.bind(this)}>Create post</Button>
-            <Modal
-                isOpen={this.state.modalIsOpen}
-                onAfterOpen={this.afterOpenModal}
-                onRequestClose={this.closeModal.bind(this)}
-                style={this.customStyles}>
-              <CreateTopic topicMainId={this.state.topicId} closeModal={this.closeModal.bind(this)}/>
-            </Modal>    
+          <Button className='createPostButton' onClick={this.openModal.bind(this)}>Create post</Button>
+
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal.bind(this)}
+            style={this.customStyles}>
+            <CreateTopic boardName={this.state.boardName} topicMainId={this.state.topicId} closeModal={this.closeModal.bind(this)} />
+          </Modal>
         </div>
+        {this.loadRating()}
         {this.loadBoard()}
+        <Share />
       </div>
     )
-  
+  }
 }
-}
-const mapStateToProps = (state,props) => {
-  console.log('state')
-  console.log(props.match.params.boardName)
-  return (
+const _mapStateToProps = (state, props) => ({
+  ownProps: props,
+  boardId: state.boardId
+})
 
-    {
-      ownProps: props,
-      boardId: state.boardId
+export default compose(connect(_mapStateToProps), graphql(topics, { name: 'topics',
+  options: (ownProps, boardId) => ({
+    variables: { boardId: boardId,
+      boardName: ownProps.match.params.boardName } })
+
+}), graphql(loadBoards, { name: 'loadBoards',
+  options: (ownProps, boardId) => ({
+    variables: { boardId: boardId,
+      boardName: ownProps.match.params.boardName } }) }),
+graphql(loadTopicsBoardcast, { name: 'loadTopicsBoardcast',
+  options: ownProps => ({
+    variables: {
+      topicId: ownProps.match.params.boardName
     }
-  )
-}
-
-export default  compose(connect(mapStateToProps),graphql(topics, { name: 'topics', 
-  options: ({ ownProps,boardId }) => ({
-    variables: { boardId:boardId,
-                 boardName: ownProps.match.params.boardName}})
-    
-  }))(Board)
+  }) }))(Board)

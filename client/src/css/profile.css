@@ -1,0 +1,11 @@
+.profile{
+  position: absolute;
+  width: 10%;
+  margin-left: 40%;
+  margin-top: 80%;
+  padding: 10px;
+  width: 300px;
+  z-index: 20 !important;;
+  background: white;
+  overflow: hidden
+}

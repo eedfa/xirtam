@@ -1,0 +1,68 @@
+  type Topic{
+    originPost: String
+    id: String
+    filename: String
+    encoding: String
+    mimetype: String
+    path: String
+    topicName: String
+    topicContent: String
+    topicTimeStamp: String
+    topicBoardName: String
+    topicType: Int
+    boardId: String
+    ratingScore: Int
+    ratingAmount: Int
+    topicPic: String
+  }
+
+   type Query{
+    topics(
+      boardId: String
+      boardName: String
+    ): [Topic]
+  }
+
+  type Mutation{
+    addTopicMutation(
+      topicName: String
+      topicContent: String
+      boardId: String
+      boardName: String
+      topicType: Int
+      file: Upload
+    ):Topic
+
+  }
+
+  type Query{
+  loadTopicPosts(
+    topicId: String
+    ): [Topic]
+  }
+
+ type Subscription {
+   loadTopicPostsBoardcast(
+    topicId: String
+   ): Topic
+  }
+
+  type Subscription {
+  loadTopicsBoardcast(
+      boardName:String,
+      boardId:String
+   ): Topic
+  }
+
+
+   type Mutation{
+    addTopicPost(
+      topicName: String
+      topicContent: String
+      topicMainId: String
+      topicType: Int
+      topicMainName: String
+      files: Upload
+    ): Topic
+
+  }

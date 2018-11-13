@@ -1,3 +1,6 @@
+:root {
+  --imgUrl:url('http://localhost:4000/uploads/lol.jpg');
+}
 .topic{
   display: inline-block;
   position: relative;
@@ -6,7 +9,9 @@
   margin-top: 2%;
   margin-right: 10px;
   border: 1px solid rgb(17, 190, 212);
-  border-radius: 10px
+  border-radius: 10px;
+
+  
 }
 .topicTitle{
   position: absolute;
